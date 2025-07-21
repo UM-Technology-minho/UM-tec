@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Login - Tech Website</title>
+  <title>Admin Login - UM Technology</title>
   <style>
     * {
       margin: 0;
@@ -12,7 +12,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212; /* Dark background */
+      background: #121212;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -21,16 +21,17 @@
     }
 
     #loginForm, #adminPanel {
-      background: #1e1e1e; /* Dark panel background */
+      background: #1e1e1e;
       padding: 2em;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       width: 320px;
       text-align: center;
+      z-index: 1;
     }
 
     h2 {
-      color: #00bcd4; /* Light teal color for the heading */
+      color: #00bcd4;
       margin-bottom: 1em;
     }
 
@@ -47,11 +48,11 @@
 
     input:focus {
       outline: none;
-      border-color: #00bcd4; /* Highlight border color on focus */
+      border-color: #00bcd4;
     }
 
     button {
-      background: #00bcd4; /* Bright teal color for the button */
+      background: #00bcd4;
       color: white;
       padding: 0.8em;
       border: none;
@@ -63,7 +64,7 @@
     }
 
     button:hover {
-      background: #008c96; /* Darker shade on hover */
+      background: #008c96;
     }
 
     #error {
@@ -72,64 +73,91 @@
       font-size: 0.9em;
     }
 
-    .success-message {
-      margin-top: 1em;
-      font-size: 1.1em;
-      color: #8bc34a; /* Green color for success */
-    }
-
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
     .footer {
       font-size: 0.8em;
       margin-top: 1.5em;
       color: #777;
     }
+
+    /* Loading overlay */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(18, 18, 18, 0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    .spinner {
+      border: 6px solid #333;
+      border-top: 6px solid #00bcd4;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1em;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #ccc;
+      font-size: 1.2em;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <div id="loginForm">
-    <h2>Admin Login</h2>
-    <input type="text" id="username" placeholder="Username"><br>
-    <input type="password" id="password" placeholder="Password"><br>
-    <button onclick="login()">Login</button>
-    <div id="error"></div>
-  </div>
+<div id="loginForm">
+  <h2>Admin Login</h2>
+  <input type="text" id="username" placeholder="Username"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button onclick="login()">Login</button>
+  <div id="error"></div>
+</div>
 
-  <div id="adminPanel" style="display:none;">
-    <h2>Welcome, Admin!</h2>
-    <p class="success-message">You are now logged in.</p>
-    <button onclick="logout()">Logout</button>
-  </div>
+<div id="adminPanel" style="display:none;">
+  <h2>Welcome, Admin!</h2>
+  <p class="success-message">You are now logged in.</p>
+  <button onclick="logout()">Logout</button>
+</div>
 
-  <div class="footer">
-    <p>Powered by Tech Website</p>
-  </div>
+<!-- Loading screen -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <div class="loading-text">Logging in...</div>
+</div>
+
+<div class="footer">
+  <p>Powered by UM Technology Minho - 2025 All rights reserved</p>
 </div>
 
 <script>
   const ADMIN_USERNAME = "admin";
-  const ADMIN_PASSWORD = "yourpassword"; // Change this to your real password
+  const ADMIN_PASSWORD = "yourpassword"; 
 
   function login() {
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
 
     if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
-      // After successful login, toggle to admin panel view
+      // Show loading screen
       document.getElementById("loginForm").style.display = "none";
-      document.getElementById("adminPanel").style.display = "block";
-      // Optionally, redirect after login
-      setTimeout(function() {
-        window.location.href = "logi.html"; // Redirect to the admin page after 2 seconds
-      }, 2000); // 2000ms = 2 seconds
+      document.getElementById("loadingScreen").style.display = "flex";
+
+      // Simulate delay + redirect
+      setTimeout(() => {
+        window.location.href = "adminPanel.html"; // Redirect after 2 seconds
+      }, 2000);
     } else {
       document.getElementById("error").textContent = "Incorrect username or password.";
     }
@@ -146,4 +174,5 @@
 
 </body>
 </html>
+
 
