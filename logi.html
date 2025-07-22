@@ -158,18 +158,25 @@
       padding-left: 1rem;
     }
 
-    .carousel {
+    .carousel-container {
       width: 100%;
-      text-align: center;
-      margin: 2rem 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
     }
 
-    .carousel img {
-      max-width: 100%; /* or max-width: 100% to make it responsive */
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-track img {
+      max-width: 300px; /* adjust to your desired size */
       height: auto;
+      margin: 0 10px;
       border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      transition: opacity 0.5s ease;
+      flex-shrink: 0;
     }
 
 
