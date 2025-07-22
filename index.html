@@ -144,7 +144,7 @@
 <body>
   <div class="container">
     <!-- Admin Login Form -->
-    <div id="loginForm" style="display: none;">
+    <div id="loginForm">
       <h2>Admin Login</h2>
       <input type="text" id="username" placeholder="Username"><br>
       <input type="password" id="password" placeholder="Password"><br>
@@ -198,14 +198,19 @@
 
   <script>
     const ADMIN_USERNAME = "admin";
-    const ADMIN_PASSWORD = "yourpassword"; 
+    const ADMIN_PASSWORD = "secret123"; // For Admin Panel access
+    const REDIRECT_USERNAME = "admin";
+    const REDIRECT_PASSWORD = "yourpassword"; // For redirect to logi.html
 
     // On page load, check if the user is already logged in
     window.onload = function() {
-      if (sessionStorage.getItem("adminLoggedIn") === "true") {
-        // If logged in, show the admin panel
+      if (sessionStorage.getItem("adminLoggedIn") === "true" && sessionStorage.getItem("password") === "secret123") {
+        // If logged in with secret123, show the admin panel
         document.getElementById("adminPanel").style.display = "block";
         loadAdminStats();
+      } else if (sessionStorage.getItem("adminLoggedIn") === "true" && sessionStorage.getItem("password") === "yourpassword") {
+        // If logged in with yourpassword, redirect to logi.html
+        window.location.href = "logi.html";
       } else {
         // If not logged in, show the login form
         document.getElementById("loginForm").style.display = "block";
@@ -217,15 +222,17 @@
       const pass = document.getElementById("password").value;
 
       if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
-        // Store session info that the user is logged in
+        // For "admin" with "secret123", show the admin panel
         sessionStorage.setItem("adminLoggedIn", "true");
-
-        // Hide login form and show admin panel
+        sessionStorage.setItem("password", "secret123");
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("adminPanel").style.display = "block";
-
-        // Load stats
         loadAdminStats();
+      } else if (user === REDIRECT_USERNAME && pass === REDIRECT_PASSWORD) {
+        // For "admin" with "yourpassword", redirect to logi.html
+        sessionStorage.setItem("adminLoggedIn", "true");
+        sessionStorage.setItem("password", "yourpassword");
+        window.location.href = "logi.html"; // Redirect to logi.html
       } else {
         document.getElementById("error").textContent = "Incorrect username or password.";
       }
@@ -235,6 +242,7 @@
     function logout() {
       // Clear session storage for logout
       sessionStorage.removeItem("adminLoggedIn");
+      sessionStorage.removeItem("password");
 
       // Show the login form and hide the admin panel
       document.getElementById("loginForm").style.display = "block";
@@ -274,6 +282,7 @@
   </script>
 </body>
 </html>
+
 
 
 
