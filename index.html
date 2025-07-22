@@ -101,6 +101,21 @@
       color: #777;
     }
 
+    button {
+      background: #00bcd4;
+      color: white;
+      padding: 0.8em 1.5em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #008c96;
+    }
   </style>
 </head>
 <body>
@@ -138,6 +153,9 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Logout Button -->
+      <button onclick="logout()">Logout</button>
     </div>
   </div>
 
@@ -146,6 +164,36 @@
   </div>
 
   <script>
+    let pageStartTime;
+    let pageEndTime;
+
+    // When the page is loaded, we start tracking the time
+    window.addEventListener("load", () => {
+      pageStartTime = performance.now();
+    });
+
+    // When the page is unloaded (user leaves or refreshes), we calculate the time spent
+    window.addEventListener("beforeunload", () => {
+      pageEndTime = performance.now();
+      const timeSpent = ((pageEndTime - pageStartTime) / 1000).toFixed(2); // Time spent in seconds
+
+      // Save to localStorage
+      let visits = parseInt(localStorage.getItem("visitCount") || "0") + 1;
+      let totalTime = parseFloat(localStorage.getItem("totalTimeSpent") || "0") + parseFloat(timeSpent);
+      localStorage.setItem("visitCount", visits);
+      localStorage.setItem("totalTimeSpent", totalTime);
+      
+      // Save user data (simulating user activity)
+      let userActivity = JSON.parse(localStorage.getItem("userActivity") || "[]");
+      userActivity.push({
+        name: `User ${visits}`,
+        timeSpent: timeSpent,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem("userActivity", JSON.stringify(userActivity));
+    });
+
+    // On page load (for the admin panel), we retrieve the data
     window.addEventListener("DOMContentLoaded", () => {
       const visits = parseInt(localStorage.getItem("visitCount") || "0");
       const totalTime = parseFloat(localStorage.getItem("totalTimeSpent") || "0");
@@ -156,11 +204,9 @@
       document.getElementById("totalTimeSpent").textContent = totalTime.toFixed(2) + " seconds";
       document.getElementById("averageTime").textContent = averageTime + " seconds";
 
-      // Simulate user activity data (this would ideally come from the server or database)
-      const users = JSON.parse(localStorage.getItem("userActivity") || "[]");
-
       // Display the user activity
       const userList = document.getElementById("userList");
+      const users = JSON.parse(localStorage.getItem("userActivity") || "[]");
       users.forEach(user => {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -172,22 +218,19 @@
       });
     });
 
-    // Simulate saving user data
-    window.addEventListener("beforeunload", () => {
-      const user = {
-        name: "User " + (Math.floor(Math.random() * 1000) + 1), // Random user name
-        timeSpent: (Math.random() * 300).toFixed(2), // Random time spent between 0 and 300 seconds
-        date: Date.now()
-      };
+    // Logout function
+    function logout() {
+      // Clear any session-specific data (like stored time, visits, etc.)
+      localStorage.removeItem("visitCount");
+      localStorage.removeItem("totalTimeSpent");
+      localStorage.removeItem("userActivity");
 
-      let users = JSON.parse(localStorage.getItem("userActivity") || "[]");
-      users.push(user);
-      localStorage.setItem("userActivity", JSON.stringify(users));
-    });
+      // Redirect back to the login page
+      window.location.href = "login.html";  // Change this URL if necessary
+    }
   </script>
 </body>
 </html>
 
-</html>
 
 
