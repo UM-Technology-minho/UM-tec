@@ -195,6 +195,20 @@
     </nav>
   </header>
 
+ <!-- Admin Stats Panel -->
+  <div style="margin-top: 2rem;">
+    <label for="password">Enter Admin Password:</label>
+    <input type="password" id="password" />
+    <button onclick="checkPassword()">Submit</button>
+  </div>
+
+  <div id="statsPanel" style="display:none; border: 1px solid #ccc; padding: 1rem; margin-top: 1rem;">
+    <h2>Stats</h2>
+    <p>Total Visitors: <span id="totalVisitors">0</span></p>
+    <p>Average Time on Site: <span id="avgTime">0</span> seconds</p>
+  </div>
+
+
   <main>
     <section id="tab1" class="tab active">
       <div class="centered-content">
@@ -413,6 +427,39 @@
       const nav = document.querySelector("nav");
       nav.style.display = nav.style.display === "flex" ? "none" : "flex";
     });
+  </script>
+
+  <script>
+    // Start tracking time when page loads
+    const startTime = Date.now();
+    const password = "secret123"; // CHANGE THIS TO YOUR OWN
+
+    // Get existing data or set defaults
+    let visits = parseInt(localStorage.getItem("visits") || "0");
+    let totalTime = parseFloat(localStorage.getItem("totalTime") || "0");
+
+    visits++;
+    localStorage.setItem("visits", visits);
+
+    // On leave, store time spent
+    window.addEventListener("beforeunload", () => {
+      const timeSpent = (Date.now() - startTime) / 1000;
+      totalTime += timeSpent;
+      localStorage.setItem("totalTime", totalTime.toFixed(2));
+    });
+
+    // Show stats if password correct
+    function checkPassword() {
+      const input = document.getElementById("password").value;
+      if (input === password) {
+        const avgTime = visits ? (totalTime / visits).toFixed(2) : 0;
+        document.getElementById("totalVisitors").innerText = visits;
+        document.getElementById("avgTime").innerText = avgTime;
+        document.getElementById("statsPanel").style.display = "block";
+      } else {
+        alert("Incorrect password.");
+      }
+    }
   </script>
 
   <button id="menuToggle" style="background:none; border:none; color:white; font-size:1.5rem; display:none;">☰</button>
