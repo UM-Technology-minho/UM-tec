@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="icon" href="logo-img.png" type="image/png" />
   <title>UMTechnology</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -156,6 +157,26 @@
       align-items: center;
       padding-left: 1rem;
     }
+
+    @media (max-width: 768px) {
+    nav {
+      display: none;
+      flex-direction: column;
+      background-color: #1a1a1a;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 1rem 0;
+    }  
+
+    #menuToggle {
+      display: block;
+    }
+  }
 
   </style>
 </head>
@@ -388,6 +409,14 @@
       links.forEach(link => link.classList.remove('active-tab'));
       if (element) element.classList.add('active-tab');
     }
+    document.getElementById("menuToggle").addEventListener("click", function () {
+      const nav = document.querySelector("nav");
+      nav.style.display = nav.style.display === "flex" ? "none" : "flex";
+    });
   </script>
+
+  <button id="menuToggle" style="background:none; border:none; color:white; font-size:1.5rem; display:none;">☰</button>
+          
 </body>
 </html>
+
