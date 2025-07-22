@@ -24,6 +24,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      padding: 20px;
     }
 
     #loginForm, #adminPanel {
@@ -34,11 +35,13 @@
       width: 320px;
       text-align: center;
       z-index: 1;
+      max-width: 100%;
     }
 
     h2 {
       color: #00bcd4;
-      margin-bottom: 1em;
+      margin-bottom: 1.5em;
+      font-size: 2em;
     }
 
     input {
@@ -48,7 +51,7 @@
       font-size: 1em;
       background: #333;
       border: 1px solid #444;
-      border-radius: 5px;
+      border-radius: 8px;
       color: #fff;
     }
 
@@ -63,7 +66,7 @@
       padding: 0.8em;
       border: none;
       width: 100%;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 1.1em;
       transition: background 0.3s ease;
@@ -85,6 +88,25 @@
       color: #777;
     }
 
+    /* Admin Panel Styles */
+    #adminPanel {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      margin: 30px auto;
+      background: #1e1e1e;
+      padding: 2em;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      text-align: left;
+    }
+
+    #adminPanel h2 {
+      font-size: 2.5em;
+      margin-bottom: 1.5em;
+      text-align: center;
+    }
+
     .stats-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -95,35 +117,44 @@
     .stat-box {
       background: #333;
       padding: 1.5em;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-box:hover {
+      transform: scale(1.05);
     }
 
     .stat-box h3 {
       margin-bottom: 1em;
       color: #00bcd4;
+      font-size: 1.4em;
     }
 
     .stat-box p {
-      font-size: 1.2em;
+      font-size: 1.3em;
+      margin-top: 0.5em;
     }
 
     .user-list {
       background: #333;
       padding: 1.5em;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      margin-top: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
     }
 
     .user-list h3 {
       color: #00bcd4;
       margin-bottom: 1em;
+      font-size: 1.6em;
     }
 
     .user-list table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 1.5em;
     }
 
     .user-list table, th, td {
@@ -133,15 +164,39 @@
     .user-list th, td {
       padding: 12px;
       text-align: center;
+      font-size: 1.1em;
     }
 
     .user-list th {
       background: #444;
+      color: #fff;
     }
 
+    .user-list td {
+      background: #222;
+    }
+
+    /* Button Styles */
+    .logout-btn {
+      margin-top: 30px;
+      background: #e74c3c;
+      color: white;
+      padding: 0.8em 2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: #c0392b;
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
     <!-- Admin Login Form -->
     <div id="loginForm">
@@ -152,10 +207,11 @@
       <div id="error"></div>
     </div>
 
-    <div class="container">
+    <!-- Admin Panel -->
     <div id="adminPanel">
       <h2>Admin Panel</h2>
 
+      <!-- Stats Container -->
       <div class="stats-container">
         <div class="stat-box">
           <h3>Total Visits</h3>
@@ -171,6 +227,7 @@
         </div>
       </div>
 
+      <!-- User Activity List -->
       <div class="user-list">
         <h3>Recent Users' Activity</h3>
         <table>
@@ -182,14 +239,13 @@
             </tr>
           </thead>
           <tbody id="userList">
-            <!-- Users will be dynamically populated here -->
+            <!-- Dynamic content here -->
           </tbody>
         </table>
       </div>
-    </div>
 
       <!-- Logout Button -->
-      <button onclick="logout()">Logout</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
   </div>
 
@@ -203,17 +259,13 @@
     const REDIRECT_USERNAME = "admin";
     const REDIRECT_PASSWORD = "yourpassword"; // For redirect to logi.html
 
-    // On page load, check if the user is already logged in
     window.onload = function() {
       if (sessionStorage.getItem("adminLoggedIn") === "true" && sessionStorage.getItem("password") === "secret123") {
-        // If logged in with secret123, show the admin panel
         document.getElementById("adminPanel").style.display = "block";
         loadAdminStats();
       } else if (sessionStorage.getItem("adminLoggedIn") === "true" && sessionStorage.getItem("password") === "yourpassword") {
-        // If logged in with yourpassword, redirect to logi.html
         window.location.href = "logi.html";
       } else {
-        // If not logged in, show the login form
         document.getElementById("loginForm").style.display = "block";
       }
     };
@@ -223,53 +275,42 @@
       const pass = document.getElementById("password").value;
 
       if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
-        // For "admin" with "secret123", show the admin panel
         sessionStorage.setItem("adminLoggedIn", "true");
         sessionStorage.setItem("password", "secret123");
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("adminPanel").style.display = "block";
         loadAdminStats();
       } else if (user === REDIRECT_USERNAME && pass === REDIRECT_PASSWORD) {
-        // For "admin" with "yourpassword", redirect to logi.html
         sessionStorage.setItem("adminLoggedIn", "true");
         sessionStorage.setItem("password", "yourpassword");
-        window.location.href = "logi.html"; // Redirect to logi.html
+        window.location.href = "logi.html";
       } else {
         document.getElementById("error").textContent = "Incorrect username or password.";
       }
     }
 
-    // Logout function
     function logout() {
-      // Clear session storage for logout
       sessionStorage.removeItem("adminLoggedIn");
       sessionStorage.removeItem("password");
-
-      // Show the login form and hide the admin panel
       document.getElementById("loginForm").style.display = "block";
       document.getElementById("adminPanel").style.display = "none";
-
-      // Clear the form
       document.getElementById("username").value = "";
       document.getElementById("password").value = "";
       document.getElementById("error").textContent = "";
     }
 
-    // Load stats for admin panel
     function loadAdminStats() {
       const visits = parseInt(localStorage.getItem("visitCount") || "0");
       const totalTime = parseFloat(localStorage.getItem("totalTimeSpent") || "0");
       const averageTime = visits > 0 ? (totalTime / visits).toFixed(2) : 0;
 
-      // Display the stats
       document.getElementById("visitCount").textContent = visits;
       document.getElementById("totalTimeSpent").textContent = totalTime.toFixed(2) + " seconds";
       document.getElementById("averageTime").textContent = averageTime + " seconds";
 
-      // Display the user activity
       const userList = document.getElementById("userList");
       const users = JSON.parse(localStorage.getItem("userActivity") || "[]");
-      userList.innerHTML = ""; // Clear the previous list
+      userList.innerHTML = "";
       users.forEach(user => {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -281,6 +322,7 @@
       });
     }
   </script>
+
 </body>
 </html>
 
