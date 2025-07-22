@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -451,10 +451,6 @@
       links.forEach(link => link.classList.remove('active-tab'));
       if (element) element.classList.add('active-tab');
     }
-    document.getElementById("menuToggle").addEventListener("click", function () {
-      const nav = document.querySelector("nav");
-      nav.style.display = nav.style.display === "flex" ? "none" : "flex";
-    });
   </script>
 
   <script>
@@ -471,21 +467,6 @@
       index = (index + 1) % totalImages;
       imagesContainer.style.transform = `translateX(-${index * 100}%)`;
     });
-  </script>
-
-  <script>
-     function showTab(tabId, link = null) {
-      const tabs = document.querySelectorAll(".tab");
-      tabs.forEach(tab => {
-        tab.classList.remove("active");
-      });
-      const selectedTab = document.getElementById(tabId);
-      if (selectedTab) selectedTab.classList.add("active");
-
-      const links = document.querySelectorAll("nav a");
-      links.forEach(link => link.classList.remove("active-tab"));
-      if (link) link.classList.add("active-tab");
-    }
   </script>
 
   <script>
