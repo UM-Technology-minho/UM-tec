@@ -498,6 +498,33 @@
     });
   </script>
 
+  <script>
+    function showTab(tabId, linkElement) {
+    // Hide all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+    // Show the selected tab
+      const selectedTab = document.getElementById(tabId);
+      if (selectedTab) {
+        selectedTab.classList.add('active');
+      }
+
+    // Remove 'active-tab' class from all nav links
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        link.classList.remove('active-tab');
+      });
+
+    // Add 'active-tab' to the clicked link if passed
+      if (linkElement) {
+        linkElement.classList.add('active-tab');
+      }
+    }
+  </script>
+
   
   <button id="menuToggle" style="background:none; border:none; color:white; font-size:1.5rem; display:none;">☰</button>
           
