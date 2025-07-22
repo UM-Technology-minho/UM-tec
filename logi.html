@@ -176,52 +176,38 @@
     #menuToggle {
       display: block;
     }
-    .carousel {
-      position: relative;
+   .carousel {
+      width: 100%;
       max-width: 800px;
       margin: 2rem auto;
       overflow: hidden;
       border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      position: relative;
     }
 
-    .carousel-images {
+    .slides {
       display: flex;
-      transition: transform 0.5s ease-in-out;
       width: 300%;
+      animation: slide 12s infinite;
     }
 
-    .carousel-images img {
+    .slides img {
       width: 100%;
-      flex-shrink: 0;
+      height: auto;
       border-radius: 12px;
+      flex-shrink: 0;
     }
 
-    .carousel-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      padding: 0.6rem 1rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 10;
-      border-radius: 50%;
+    @keyframes slide {
+      0%   { transform: translateX(0); }
+      33%  { transform: translateX(0); }
+      36%  { transform: translateX(-100%); }
+      66%  { transform: translateX(-100%); }
+      69%  { transform: translateX(-200%); }
+      99%  { transform: translateX(-200%); }
+      100% { transform: translateX(0); }
     }
 
-    .carousel-button:hover {
-      background-color: rgba(0,191,255, 0.8);
-    }
-
-    .carousel-button.prev {
-      left: 10px;
-    }
-
-    .carousel-button.next {
-      right: 10px;
-    }
 
   }
 
@@ -258,15 +244,17 @@
         or explore the impact of ultrasonic technologies, you’ve come to the right place.
         </span></p>
 
+      <img src="image2.jpg" alt="Company Visual" />
+      <img src="lab1.jpg" alt="Company Visual" />
+      <img src="lab2.jpg" alt="Company Visual" />
+
       <div class="carousel">
-        <div class="carousel-images">
-          <img src="image2.jpg" alt="Ultrasound Setup">
-          <img src="lab1.jpg" alt="Lab Environment">
-          <img src="lab2.jpg" alt="Technicians at Work">
-        </div>
-        <button class="carousel-button prev">&#10094;</button>
-        <button class="carousel-button next">&#10095;</button>
+        <div class="slides">
+        <img src="image2.jpg" alt="Slide 1" />
+        <img src="lab1.jpg" alt="Slide 2" />
+        <img src="lab2.jpg" alt="Slide 3" />
       </div>
+    </div>
 
     <section id="tab2" class="tab">
       <div class="centered-content">
