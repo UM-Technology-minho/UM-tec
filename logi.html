@@ -160,26 +160,16 @@
 
     .carousel {
       width: 100%;
-      max-width: 100vw;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem 0;
+      text-align: center;
+      margin: 2rem 0;
     }
 
-    .slides {
-      display: flex;
-      animation: slide 9s infinite;
-    }
-
-    .slides img {
-      width: 300px; /* smaller size */
+    .carousel img {
+      max-width: 100%; /* or max-width: 100% to make it responsive */
       height: auto;
       border-radius: 10px;
-      margin: 0 auto;
-      flex-shrink: 0;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: opacity 0.5s ease;
     }
 
 
@@ -482,6 +472,21 @@
       if (link) link.classList.add("active-tab");
     }
   </script>
+
+  <script>
+      const images = ["image1.jpg", "image2.jpg", "image3.jpg"];
+      let current = 0;
+      const imgElement = document.getElementById("carouselImage");
+
+      setInterval(() => {
+        current = (current + 1) % images.length;
+        imgElement.style.opacity = 0;
+        setTimeout(() => {
+          imgElement.src = images[current];
+          imgElement.style.opacity = 1;
+        }, 300); // fade out before switching
+      }, 5000); // every 5 seconds
+    </script>
 
   
   <button id="menuToggle" style="background:none; border:none; color:white; font-size:1.5rem; display:none;">☰</button>
