@@ -2,21 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Login - UM Technology</title>
+  <title>Login - UM Technology</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #121212;
-      margin: 0;
       height: 100vh;
+      color: white;
     }
-
     .container {
       display: flex;
       flex-direction: column;
@@ -24,22 +18,18 @@
       align-items: center;
       height: 100%;
     }
-
-    #loginForm, #adminPanel {
+    #loginForm, #adminPanel, #userPage {
       background: #1e1e1e;
       padding: 2em;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       width: 320px;
       text-align: center;
-      z-index: 1;
     }
-
     h2 {
       color: #00bcd4;
       margin-bottom: 1em;
     }
-
     input {
       padding: 0.8em;
       width: 100%;
@@ -50,12 +40,6 @@
       border-radius: 5px;
       color: #fff;
     }
-
-    input:focus {
-      outline: none;
-      border-color: #00bcd4;
-    }
-
     button {
       background: #00bcd4;
       color: white;
@@ -67,30 +51,14 @@
       font-size: 1.1em;
       transition: background 0.3s ease;
     }
+    button:hover { background: #008c96; }
+    #error { color: red; margin-top: 1em; font-size: 0.9em; }
+    .footer { font-size: 0.8em; margin-top: 1.5em; color: #777; }
 
-    button:hover {
-      background: #008c96;
-    }
-
-    #error {
-      color: red;
-      margin-top: 1em;
-      font-size: 0.9em;
-    }
-
-    .footer {
-      font-size: 0.8em;
-      margin-top: 1.5em;
-      color: #777;
-    }
-
-    /* Loading overlay */
     #loadingScreen {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background-color: rgba(18, 18, 18, 0.95);
       display: none;
       justify-content: center;
@@ -98,22 +66,18 @@
       flex-direction: column;
       z-index: 999;
     }
-
     .spinner {
       border: 6px solid #333;
       border-top: 6px solid #00bcd4;
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
+      width: 60px; height: 60px;
       animation: spin 1s linear infinite;
       margin-bottom: 1em;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
     .loading-text {
       color: #ccc;
       font-size: 1.2em;
@@ -122,62 +86,97 @@
 </head>
 <body>
   <div class="container">
+    <!-- LOGIN FORM -->
     <div id="loginForm">
-      <h2>Admin Login</h2>
+      <h2>Login</h2>
       <input type="text" id="username" placeholder="Username"><br>
       <input type="password" id="password" placeholder="Password"><br>
       <button onclick="login()">Login</button>
       <div id="error"></div>
     </div>
 
+    <!-- ADMIN PANEL -->
     <div id="adminPanel" style="display:none;">
-      <h2>Welcome, Admin!</h2>
-      <p class="success-message">You are now logged in.</p>
+      <h2>Admin Panel</h2>
+      <p>Total visitors: <span id="visitorCount">0</span></p>
+      <p>Average time spent: <span id="avgTime">0</span> seconds</p>
       <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- USER PAGE -->
+    <div id="userPage" style="display:none;">
+      <h2>Welcome to the Website</h2>
+      <p>This is the normal user content.</p>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <div id="loadingScreen">
+      <div class="spinner"></div>
+      <div class="loading-text">Logging in...</div>
     </div>
 
     <div class="footer">
       <p>Powered by UM Technology</p>
     </div>
-
-     <div id="loadingScreen">
-        <div class="spinner"></div>
-        <div class="loading-text">Logging in...</div>
-     </div>
-
   </div>
 
-<script>
-  const ADMIN_USERNAME = "admin";
-  const ADMIN_PASSWORD = "yourpassword"; 
+  <script>
+    const ADMIN_PASS = "admin123";
+    const USER_PASS = "user123";
 
-  function login() {
-    const user = document.getElementById("username").value;
-    const pass = document.getElementById("password").value;
+    let loginTime = 0;
 
-    if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
-      // Show loading screen
-      document.getElementById("loginForm").style.display = "none";
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      document.getElementById("error").textContent = "";
       document.getElementById("loadingScreen").style.display = "flex";
 
-      // Simulate delay + redirect
       setTimeout(() => {
-        window.location.href = "logi.html"; // Redirect after 2 seconds
-      }, 2000);
-    } else {
-      document.getElementById("error").textContent = "Incorrect username or password.";
+        document.getElementById("loadingScreen").style.display = "none";
+
+        if (pass === ADMIN_PASS) {
+          // Admin login
+          incrementVisitor();
+          loginTime = Date.now();
+          document.getElementById("loginForm").style.display = "none";
+          document.getElementById("adminPanel").style.display = "block";
+          showAdminStats();
+        } else if (pass === USER_PASS) {
+          // User login
+          incrementVisitor();
+          document.getElementById("loginForm").style.display = "none";
+          document.getElementById("userPage").style.display = "block";
+        } else {
+          document.getElementById("error").textContent = "Incorrect password.";
+        }
+      }, 1500);
     }
-  }
 
-  function logout() {
-    document.getElementById("adminPanel").style.display = "none";
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("error").textContent = "";
-  }
-</script>
+    function logout() {
+      document.getElementById("adminPanel").style.display = "none";
+      document.getElementById("userPage").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    }
 
+    function incrementVisitor() {
+      let count = parseInt(localStorage.getItem("visitorCount") || "0");
+      localStorage.setItem("visitorCount", count + 1);
+    }
+
+    function showAdminStats() {
+      const count = parseInt(localStorage.getItem("visitorCount") || "0");
+      document.getElementById("visitorCount").textContent = count;
+
+      let interval = setInterval(() => {
+        const seconds = Math.floor((Date.now() - loginTime) / 1000);
+        document.getElementById("avgTime").textContent = seconds;
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
 
