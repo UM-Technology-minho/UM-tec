@@ -224,10 +224,10 @@
     </div>
     <nav>
       <a id="link-tab1" class="active-tab" onclick="showTab('tab1', this)">Home</a>
-      <a id="link-tab2" class="tab" onclick="showTab('tab2', this)">Students</a>
-      <a id="link-tab3" class="tab" onclick="showTab('tab3', this)">Projects</a>
-      <a id="link-tab4" class="tab" onclick="showTab('tab4', this)">Publications</a>
-      <a id="link-tab5" class="tab" onclick="showTab('tab5', this)">Contacts</a>
+      <a id="link-tab2" onclick="showTab('tab2', this)">Students</a>
+      <a id="link-tab3" onclick="showTab('tab3', this)">Projects</a>
+      <a id="link-tab4" onclick="showTab('tab4', this)">Publications</a>
+      <a id="link-tab5" onclick="showTab('tab5', this)">Contacts</a>
     </nav>
   </header>
 
@@ -443,14 +443,26 @@
   </footer>
 
   <script>
-    function showTab(tabId, element = null) {
+    function showTab(tabId, el = null) {
+    // Hide all tabs
       const tabs = document.querySelectorAll('.tab');
       tabs.forEach(tab => tab.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
 
-      const links = document.querySelectorAll('nav a');
-      links.forEach(link => link.classList.remove('active-tab'));
-      if (element) element.classList.add('active-tab');
+    // Show the selected tab
+      const activeTab = document.getElementById(tabId);
+      if (activeTab) {
+        activeTab.classList.add('active');
+      }
+
+    // Optionally update nav link styles
+      if (el) {
+        const links = document.querySelectorAll('nav a');
+        links.forEach(link => link.classList.remove('active-tab'));
+        el.classList.add('active-tab');
+      }
+
+    // Scroll to top of the tab content for better UX
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
 
