@@ -158,25 +158,7 @@
       padding-left: 1rem;
     }
 
-    @media (max-width: 768px) {
-    nav {
-      display: none;
-      flex-direction: column;
-      background-color: #1a1a1a;
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    nav a {
-      margin: 1rem 0;
-    }  
-
-    #menuToggle {
-      display: block;
-    }
-   .carousel {
+    .carousel {
       width: 100%;
       max-width: 800px;
       margin: 2rem auto;
@@ -210,6 +192,25 @@
 
 
   }
+
+    @media (max-width: 768px) {
+    nav {
+      display: none;
+      flex-direction: column;
+      background-color: #1a1a1a;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 1rem 0;
+    }  
+
+    #menuToggle {
+      display: block;
+    }
 
   </style>
 </head>
@@ -465,6 +466,21 @@
       index = (index + 1) % totalImages;
       imagesContainer.style.transform = `translateX(-${index * 100}%)`;
     });
+  </script>
+
+  <script>
+     function showTab(tabId, link = null) {
+      const tabs = document.querySelectorAll(".tab");
+      tabs.forEach(tab => {
+        tab.classList.remove("active");
+      });
+      const selectedTab = document.getElementById(tabId);
+      if (selectedTab) selectedTab.classList.add("active");
+
+      const links = document.querySelectorAll("nav a");
+      links.forEach(link => link.classList.remove("active-tab"));
+      if (link) link.classList.add("active-tab");
+    }
   </script>
 
   
