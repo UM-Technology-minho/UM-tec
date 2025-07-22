@@ -443,26 +443,14 @@
   </footer>
 
   <script>
-    function showTab(tabId, el = null) {
-    // Hide all tabs
+    function showTab(tabId, element = null) {
       const tabs = document.querySelectorAll('.tab');
       tabs.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
 
-    // Show the selected tab
-      const activeTab = document.getElementById(tabId);
-      if (activeTab) {
-        activeTab.classList.add('active');
-      }
-
-    // Optionally update nav link styles
-      if (el) {
-        const links = document.querySelectorAll('nav a');
-        links.forEach(link => link.classList.remove('active-tab'));
-        el.classList.add('active-tab');
-      }
-
-    // Scroll to top of the tab content for better UX
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const links = document.querySelectorAll('nav a');
+      links.forEach(link => link.classList.remove('active-tab'));
+      if (element) element.classList.add('active-tab');
     }
   </script>
 
@@ -509,34 +497,6 @@
       });
     });
   </script>
-
-  <script>
-    function showTab(tabId, linkElement) {
-    // Hide all tabs
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => {
-        tab.classList.remove('active');
-      });
-
-    // Show the selected tab
-      const selectedTab = document.getElementById(tabId);
-      if (selectedTab) {
-        selectedTab.classList.add('active');
-      }
-
-    // Remove 'active-tab' class from all nav links
-      const navLinks = document.querySelectorAll('nav a');
-      navLinks.forEach(link => {
-        link.classList.remove('active-tab');
-      });
-
-    // Add 'active-tab' to the clicked link if passed
-      if (linkElement) {
-        linkElement.classList.add('active-tab');
-      }
-    }
-  </script>
-
   
   <button id="menuToggle" style="background:none; border:none; color:white; font-size:1.5rem; display:none;">☰</button>
           
