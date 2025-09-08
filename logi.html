@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -263,32 +263,40 @@
     </section>
 
     <section id="tab3" class="tab">
-      <div class="centered-content">
-        <h1>Our Projects</h1>
-        <p>A list of our many projects that are being carried out in our lab.</p>
-      <div class="projects-container">
-        <div class="project-box">
-          <h3>Lightweight Alloys</h3>
-          <p>Recent developments in processing methods using sonoprocessing techniques.</p>
-          <a href="#" onclick="showTab('project1')">View Details</a>
+      <h1>Projects</h1>
+        <div class="project-buttons">
+          <button onclick="alert('Research Topics Clicked')">Research Topics</button>
+          <button onclick="alert('Projects Clicked')">Projects</button>
+          <button onclick="alert('Publications Clicked')">Publications</button>
+          <button onclick="alert('Equipment & Software Clicked')">Equipment & Software</button>
         </div>
-        <div class="project-box">
-          <h3>Residual Stress Relief</h3>
-          <p>Ultrasound-enhanced techniques for welded aluminum alloy plates.</p>
-          <a href="#" onclick="showTab('project2')">View Details</a>
-        </div>
-        <div class="project-box">
-          <h3>Project 3</h3>
-          <p>Development of an innovative IoT system for smart and connected environments.</p>
-          <a href="#" onclick="showTab('project3')">View Details</a>
-        </div>
-        <div class="project-box">
-          <h3>Project 4</h3>
-          <p>Development of an innovative IoT system for smart and connected environments.</p>
-          <a href="#" onclick="showTab('project4')">View Details</a>
-        </div>
-      </div>
-    </section>
+      </section>
+
+      <style>
+        .project-buttons {
+          display: flex;
+          flex-direction: column; /* Vertical stack */
+          align-items: center;
+          margin-top: 1em;
+          gap: 10px;
+        }
+
+        .project-buttons button {
+          background: #007BFF;
+          color: white;
+          border: none;
+          padding: 0.7em 1.5em;
+          font-size: 1em;
+          border-radius: 5px;
+          width: 220px;
+          cursor: pointer;
+          transition: background 0.3s ease;
+        }
+
+        .project-buttons button:hover {
+          background: #0056b3;
+        }
+      </style>
 
       <section id="tab4" class="tab">
       <div class="centered-content">
